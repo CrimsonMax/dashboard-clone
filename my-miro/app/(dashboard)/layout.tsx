@@ -7,10 +7,10 @@ interface DashboardLayoutProps {
 }
 
 export default function ({ children }: DashboardLayoutProps) {
-  const mainContainer_class = `h-full`
-  const mainInner_class = `pl-[60px] h-full`
-  const mainWrapper_class = `flex gap-x-3 h-full`
-  const childrenContainer_class = `h-full flex-1`
+  const mainContainer_class = 'h-full'
+  const mainInner_class = 'pl-[60px] h-full'
+  const mainWrapper_class = 'flex gap-x-3 h-full'
+  const childrenContainer_class = 'h-full flex-1'
 
 
   return (
