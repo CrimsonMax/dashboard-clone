@@ -1,5 +1,6 @@
 'use client'
 
+import { Hint } from "@/components/hint"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { CreateOrganization } from "@clerk/nextjs"
 import { Plus } from "lucide-react"
@@ -14,9 +15,16 @@ export const NewButton = () => {
     <Dialog>
       <DialogTrigger asChild>
         <div className={buttonWrapper_class}>
-          <button className={buttonStyle_class}>
-            <Plus className={buttonIcon_class} />
-          </button>
+          <Hint
+            label="Create organization"
+            side="right"
+            align="center"
+            sideOffcet={14}
+          >
+            <button className={buttonStyle_class}>
+              <Plus className={buttonIcon_class} />
+            </button>
+          </Hint>
         </div>
       </DialogTrigger>
       <DialogContent className={dialogContent_class}>

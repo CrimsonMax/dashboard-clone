@@ -1,3 +1,4 @@
+import { List } from "./list"
 import { NewButton } from "./new-button"
 
 export const Sidebar = () => {
@@ -5,6 +6,7 @@ export const Sidebar = () => {
 
   return (
     <aside className={asideContainer_class}>
+      <List />
       <NewButton />
     </aside>
   )
