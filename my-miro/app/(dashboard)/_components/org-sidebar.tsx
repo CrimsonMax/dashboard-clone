@@ -1,11 +1,95 @@
 'use client'
 
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+import { OrganizationSwitcher } from "@clerk/nextjs"
+import { LayoutDashboard, Star } from "lucide-react"
+import { Poppins } from "next/font/google"
+import Image from "next/image"
+import Link from "next/link"
+import { useSearchParams } from "next/navigation"
+
+const font = Poppins({
+  subsets: ["latin"],
+  weight: ["600"]
+})
+
 export const OrgSidebar = () => {
-  const orgSidebar_class = 'hidden lg:flex flex-col space-y-6 w-[206px] pl-5 pt-5 bg-pink-200' // remove bg-color later
+  const orgSidebar_class = 'hidden lg:flex flex-col space-y-6 w-[206px] pl-5 pt-5'
+  const logoWrapper_class = 'flex item-center gap-x-2'
+  const logoFont_class = 'font-semibold text-2xl'
+  const buttonWrapper_class = 'space-y-1 w-full'
+  const teamBoard_class = 'h-4 w-4 mr-2'
+  const logoBtn_class = 'font-normal justify-start px-2 w-full'
+
+  const searchParams = useSearchParams()
+  const favorites = searchParams.get('favorites')
 
   return (
     <div className={orgSidebar_class}>
-      Organisation Sidebar
+      <Link href='/'>
+        <div className={logoWrapper_class}>
+          <Image
+            src="/logo.svg"
+            alt="logo"
+            height={60}
+            width={60}
+          />
+          <span className={cn(logoFont_class, font.className)}>
+            Tabby
+          </span>
+        </div>
+      </Link>
+      <OrganizationSwitcher
+        hidePersonal
+        appearance={{
+          elements: {
+            rootBox: {
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              width: '100%',
+            },
+            organizationSwitcherTrigger: {
+              padding: '6px',
+              width: '100%',
+              borderRadius: '8px',
+              border: '1px solid #E5E7EB',
+              justifyContent: 'space-between',
+              backgroundColor: 'white',
+            }
+          }
+        }}
+      />
+      <div className={buttonWrapper_class}>
+        <Button
+          variant={favorites ? 'ghost' : 'secondary'}
+          asChild
+          size="lg"
+          className={logoBtn_class}
+        >
+          <Link href="/">
+            <LayoutDashboard className={teamBoard_class} />
+            Team boards
+          </Link>
+        </Button>
+        <Button
+          variant={favorites ? 'secondary' : 'ghost'}
+          asChild
+          size="lg"
+          className={logoBtn_class}
+        >
+          <Link
+            href={{
+              pathname: '/',
+              query: { favorites: true }
+            }}
+          >
+            <Star className={teamBoard_class} />
+            Favorite boards
+          </Link>
+        </Button>
+      </div>
     </div>
   )
 }
