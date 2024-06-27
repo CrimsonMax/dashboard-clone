@@ -15,24 +15,24 @@ interface BoardlistProps {
 export const BoardList = ({ orgId, query }: BoardlistProps) => {
   const data = [] // TODO: Change to API call
 
-  if (!data?.length && query.search) {
+  if (!data?.length && query.search && Array.isArray(query.search)) {
     return (
-      <div>
+      <>
         <EmptySearch />
-      </div>
+      </>
     )
   } else if (!data?.length && query.favorites) {
     return (
-      <div>
+      <>
         <EmptyFavorites />
-      </div>
+      </>
     )
   } else {
     if (!data?.length) {
       return (
-        <div>
+        <>
           <EmptyBoards />
-        </div>
+        </>
       )
     }
   }
