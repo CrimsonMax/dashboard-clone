@@ -5,11 +5,13 @@ import Link from "next/link"
 import { Overlay } from "./overlay"
 import { useAuth } from "@clerk/nextjs"
 import { formatDistanceToNow } from "date-fns"
-import { Footer } from "./Footer"
+import { Footer } from "./footer"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Actions } from "@/components/actions"
+import { MoreHorizontal } from "lucide-react"
 
 interface BoardCardsProps {
-  key: string
+  // key: string
   id: string
   title: string
   imageUrl: string
@@ -21,7 +23,7 @@ interface BoardCardsProps {
 }
 
 export const BoardCard = ({
-  key,
+  // key,
   id,
   title,
   imageUrl,
@@ -40,6 +42,8 @@ export const BoardCard = ({
   const linkInnerDiv_class = 'group aspect-[100/127] border rounded-lg flex flex-col justify-between overflow-hidden'
   const imageContainer_class = 'relative flex-1 bg-amber-50'
   const image_class = 'object-fit'
+  const actionBtn_class = 'absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity px-3 py-2 outline-none'
+  const actionBtnIcon_class = 'text-white opacity-75 hover:opacity-100 transition-opacity'
 
   return (
     <Link href={`/board/${id}`}>
@@ -52,9 +56,20 @@ export const BoardCard = ({
             className={image_class}
           />
           <Overlay />
+          <Actions 
+            id={id}
+            title={title}
+            side="right"
+          >
+            <button className={actionBtn_class}>
+              <MoreHorizontal
+                className={actionBtnIcon_class}
+              />
+            </button>
+          </Actions>
         </div>
         <Footer
-          isFavorite
+          isFavorite={isFavorite}
           title={title}
           authorLabel={authorLabel}
           createdAtLabel={createdAtLabel}
@@ -69,7 +84,7 @@ export const BoardCard = ({
 BoardCard.Skeleton = function BoardCardSkeleton() {
   const skeletonContainer_class = 'aspect-[100/127] rounded-lg overflow-hidden'
   const skeletonMain_class = 'h-full w-full'
-  
+
   return (
     <div className={skeletonContainer_class}>
       <Skeleton className={skeletonMain_class} />
