@@ -12,7 +12,6 @@ export default function ({ children }: DashboardLayoutProps) {
   const mainWrapper_class = 'flex gap-x-3 h-full'
   const childrenContainer_class = 'h-full flex-1'
 
-
   return (
     <main className={mainContainer_class}>
       <Sidebar />

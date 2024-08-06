@@ -16,8 +16,8 @@ export const NewBoardBtn = ({
   orgId,
   disabled
 }: NewBoardBtnProps) => {
-  const buttonContainer1_class = 'col-span-1 aspect-[100/127] bg-blue-600 rounded-lg hover:bg-blue-800 flex flex-col items-center justify-center py-6'
-  const buttonContainer2_class = 'opacity-75 hover:bg-blue-600 cursor-not-allowed'
+  const buttonContainer1_class = 'col-span-1 aspect-[100/127] bg-orange-600 rounded-lg hover:bg-orange-800 flex flex-col items-center justify-center py-6'
+  const buttonContainer2_class = 'opacity-75 hover:bg-orange-600 cursor-not-allowed'
   const plusIcon_class = 'h-12 w-12 text-white stroke-1'
   const textTitle_class = 'text-sm text-white font-light'
   
