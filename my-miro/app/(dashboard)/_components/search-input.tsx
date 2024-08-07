@@ -3,7 +3,7 @@
 import { Input } from "@/components/ui/input"
 import { Search } from "lucide-react"
 import { useRouter } from "next/navigation"
-import queryString from "query-string"
+import qs from "query-string"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useDebounceValue } from "usehooks-ts"
 
@@ -21,10 +21,10 @@ export const SearchInput = () => {
   }
 
   useEffect(() => {
-    const url = queryString.stringifyUrl({
+    const url = qs.stringifyUrl({
       url: '/',
       query: {
-        search: deboucedValue
+        search: deboucedValue[0]
       },
     }, { skipEmptyString: true, skipNull: true })
 
