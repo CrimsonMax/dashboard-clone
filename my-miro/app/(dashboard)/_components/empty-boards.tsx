@@ -5,6 +5,7 @@ import { api } from "@/convex/_generated/api"
 import { useApiMutation } from "@/hooks/use-api-mutation"
 import { useOrganization } from "@clerk/nextjs"
 import Image from "next/image"
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
 export const EmptyBoards = () => {
@@ -13,6 +14,7 @@ export const EmptyBoards = () => {
   const emptyBoardsInfo_class = 'text-muted-foreground textg-sm mt-2'
   const emptyBoardBtnWrapper_class = 'mt-6'
 
+  const router = useRouter()
   const { organization } = useOrganization()
   const { mutate, pending } = useApiMutation(api.board.create)
 
@@ -25,7 +27,7 @@ export const EmptyBoards = () => {
     })
       .then(id => {
         toast.success('IT HAS BEGAN!')
-        // TODO: redirect to board/{id}
+        router.push(`/board/${id}`)
       })
       .catch(() => toast.error('FAIL'))
   }
