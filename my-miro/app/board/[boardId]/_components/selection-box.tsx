@@ -12,8 +12,8 @@ interface SelectionBoxProps {
 const HANDLE_WIDTH = 8
 
 export const SelectionBox = memo(({ onResizeHandlePointerDown }: SelectionBoxProps) => {
-  const select_class = 'fill-transparent stroke-blue-500 strike-1 pointer-events-none'
-  const bounds_class = 'fill-white stroke-blue-500 strike-1'
+  const select_class = 'fill-transparent stroke-orange-500 stroke-2 pointer-events-none'
+  const bounds_class = 'fill-white stroke-orange-500 stroke-2'
 
   const soleLayerId = useSelf(me => me.presence.selection.length === 1 ? me.presence.selection[0] : null)
   const isShowingHandles = useStorage(root => soleLayerId && root.layers.get(soleLayerId)?.type !== LayerType.Path)
@@ -85,12 +85,14 @@ export const SelectionBox = memo(({ onResizeHandlePointerDown }: SelectionBoxPro
       {isShowingHandles && (
         <>
           {boundsList.map(elem => (
-            <rect
+            <ellipse
+            rx={HANDLE_WIDTH / 2} 
+            ry={HANDLE_WIDTH / 2} 
+            cx={HANDLE_WIDTH / 2}
+            cy={HANDLE_WIDTH / 2}
             key={elem.key}
               className={bounds_class}
               style={{
-                height: `${HANDLE_WIDTH}px`,
-                width: `${HANDLE_WIDTH}px`,
                 transform: elem.translate,
                 cursor: `${elem.cursor}-resize`
               }}
