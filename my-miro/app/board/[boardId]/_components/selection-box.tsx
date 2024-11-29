@@ -23,36 +23,52 @@ export const SelectionBox = memo(({ onResizeHandlePointerDown }: SelectionBoxPro
 
   const boundsList = [
     {
+      key: 1,
       cursor: 'nwse',
-      translate: `translate(${bounds.x - HANDLE_WIDTH / 2}px, ${bounds.y - HANDLE_WIDTH / 2}px)`
+      translate: `translate(${bounds.x - HANDLE_WIDTH / 2}px, ${bounds.y - HANDLE_WIDTH / 2}px)`,
+      corner: Side.Top + Side.Left,
     },
     {
+      key: 2,
       cursor: 'ns',
-      translate: `translate(${bounds.x + bounds.width / 2 - HANDLE_WIDTH / 2}px, ${bounds.y - HANDLE_WIDTH / 2}px)`
+      translate: `translate(${bounds.x + bounds.width / 2 - HANDLE_WIDTH / 2}px, ${bounds.y - HANDLE_WIDTH / 2}px)`,
+      corner: Side.Top,
     },
     {
+      key: 3,
       cursor: 'nesw',
-      translate: `translate(${bounds.x - HANDLE_WIDTH / 2 + bounds.width}px, ${bounds.y - HANDLE_WIDTH / 2}px)`
+      translate: `translate(${bounds.x - HANDLE_WIDTH / 2 + bounds.width}px, ${bounds.y - HANDLE_WIDTH / 2}px)`,
+      corner: Side.Top + Side.Right,
     },
     {
+      key: 4,
       cursor: 'ew',
-      translate: `translate(${bounds.x - HANDLE_WIDTH / 2 + bounds.width}px, ${bounds.y + bounds.height / 2 - HANDLE_WIDTH / 2}px)`
+      translate: `translate(${bounds.x - HANDLE_WIDTH / 2 + bounds.width}px, ${bounds.y + bounds.height / 2 - HANDLE_WIDTH / 2}px)`,
+      corner: Side.Right,
     },
     {
+      key: 5,
       cursor: 'nwse',
-      translate: `translate(${bounds.x - HANDLE_WIDTH / 2 + bounds.width}px, ${bounds.y - HANDLE_WIDTH / 2 + bounds.height}px)`
+      translate: `translate(${bounds.x - HANDLE_WIDTH / 2 + bounds.width}px, ${bounds.y - HANDLE_WIDTH / 2 + bounds.height}px)`,
+      corner: Side.Right + Side.Bottom,
     },
     {
+      key: 6,
       cursor: 'ns',
-      translate: `translate(${bounds.x + bounds.width / 2 - HANDLE_WIDTH / 2}px, ${bounds.y - HANDLE_WIDTH / 2 + bounds.height}px)`
+      translate: `translate(${bounds.x + bounds.width / 2 - HANDLE_WIDTH / 2}px, ${bounds.y - HANDLE_WIDTH / 2 + bounds.height}px)`,
+      corner: Side.Bottom,
     },
     {
+      key: 7,
       cursor: 'nesw',
-      translate: `translate(${bounds.x - HANDLE_WIDTH / 2}px, ${bounds.y - HANDLE_WIDTH / 2 + bounds.height}px)`
+      translate: `translate(${bounds.x - HANDLE_WIDTH / 2}px, ${bounds.y - HANDLE_WIDTH / 2 + bounds.height}px)`,
+      corner: Side.Left + Side.Bottom,
     },
     {
+      key: 8,
       cursor: 'ew',
-      translate: `translate(${bounds.x - HANDLE_WIDTH / 2}px, ${bounds.y - HANDLE_WIDTH / 2 + bounds.height / 2}px)`
+      translate: `translate(${bounds.x - HANDLE_WIDTH / 2}px, ${bounds.y - HANDLE_WIDTH / 2 + bounds.height / 2}px)`,
+      corner: Side.Left,
     },
   ]
 
@@ -70,6 +86,7 @@ export const SelectionBox = memo(({ onResizeHandlePointerDown }: SelectionBoxPro
         <>
           {boundsList.map(elem => (
             <rect
+            key={elem.key}
               className={bounds_class}
               style={{
                 height: `${HANDLE_WIDTH}px`,
@@ -81,7 +98,7 @@ export const SelectionBox = memo(({ onResizeHandlePointerDown }: SelectionBoxPro
               y={0}
               onPointerDown={e => {
                 e.stopPropagation()
-                // TODO: add resize handler
+                onResizeHandlePointerDown(elem.corner, bounds)
               }}
             />
           ))}
