@@ -8,7 +8,7 @@ import { Toolbar } from "./toolbar"
 import { Camera, CanvasMode, CanvasState, Color, LayerType, Point, Side, XYWH } from "@/types/canvas"
 import { useCanRedo, useCanUndo, useHistory, useMutation, useOthersMapped, useStorage } from "@liveblocks/react/suspense"
 import { CursorPresence } from "./cursor-presence"
-import { connectionIdToColor, pointerEventToCanvasPoint, resizeBounds } from "@/lib/utils"
+import { connectionIdToColor, findIntersectingLayersWithRectangle, pointerEventToCanvasPoint, resizeBounds } from "@/lib/utils"
 import { LiveObject } from "@liveblocks/client"
 import { LayerPreview } from "./layer-preview"
 import { SelectionBox } from "./selection-box"
@@ -25,6 +25,7 @@ export const Canvas = ({
 }: CanvasProps) => {
   const mainCanvas_class = 'h-full w-full relative bg-neutral-100 touch-none'
   const svg_class = 'h-[100vh] w-[100vw]'
+  const selectionNet_class = 'fill-orange-500/5 stroke-orange-500 stroke-1'
 
   const layerIds = useStorage(root => root.layersIds)
 
@@ -99,6 +100,34 @@ export const Canvas = ({
     }
   }, [])
 
+  const updateSelectionNet = useMutation((
+    { storage, setMyPresence },
+    current: Point,
+    origin: Point
+  ) => {
+    const layers = storage.get("layers").toImmutable()
+
+    setCanvasState({
+      mode: CanvasMode.SelectionNet,
+      origin,
+      current
+    })
+
+    const ids = findIntersectingLayersWithRectangle(layerIds, layers, origin, current)
+
+    setMyPresence({ selection: ids })
+  }, [layerIds])
+
+  const startMultiSelection = useCallback((current: Point, origin: Point) => {
+    if (Math.abs(current.x - origin.x) + Math.abs(current.y - origin.y) > 5) {
+      setCanvasState({
+        mode: CanvasMode.SelectionNet,
+        origin,
+        current
+      })
+    }
+  }, [])
+
   const resizeSelectedLayer = useMutation((
     { storage, self },
     point: Point,
@@ -144,7 +173,11 @@ export const Canvas = ({
 
     const current = pointerEventToCanvasPoint(e, camera)
 
-    if (canvasState.mode === CanvasMode.Translating) {
+    if (canvasState.mode === CanvasMode.Pressing) {
+      startMultiSelection(current, canvasState.origin)
+    } else if (canvasState.mode === CanvasMode.SelectionNet) {
+      updateSelectionNet(current, canvasState.origin)
+    } else if (canvasState.mode === CanvasMode.Translating) {
       translateSelectedLayer(current)
     } else if (canvasState.mode === CanvasMode.Resizing) {
       resizeSelectedLayer(current)
@@ -167,10 +200,7 @@ export const Canvas = ({
     setCanvasState({ origin: point, mode: CanvasMode.Pressing })
   }, [camera, canvasState.mode, setCanvasState])
 
-  const onPointerUp = useMutation((
-    { },
-    e
-  ) => {
+  const onPointerUp = useMutation(({ }, e) => {
     const point = pointerEventToCanvasPoint(e, camera)
 
     if (
@@ -248,7 +278,7 @@ export const Canvas = ({
         undo={history.undo}
         redo={history.redo}
       />
-      <SelectionTools 
+      <SelectionTools
         camera={camera}
         setLastUsedColor={setLastUsedColor}
       />
@@ -270,6 +300,15 @@ export const Canvas = ({
             />
           ))}
           <SelectionBox onResizeHandlePointerDown={onResizeHandlerPointerDown} />
+          {canvasState.mode === CanvasMode.SelectionNet && canvasState.current != null && (
+            <rect
+              className={selectionNet_class}
+              x={Math.min(canvasState.origin.x, canvasState.current.x)}
+              y={Math.min(canvasState.origin.y, canvasState.current.y)}
+              width={Math.abs(canvasState.origin.x - canvasState.current.x)}
+              height={Math.abs(canvasState.origin.y - canvasState.current.y)}
+            />
+          )}
           <CursorPresence />
         </g>
       </svg>
