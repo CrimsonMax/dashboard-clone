@@ -104,3 +104,9 @@ export function findIntersectingLayersWithRectangle(
 
   return ids
 }
+
+export function getContrastingTextColor(color: Color) {
+  const fckingMagic = .2 * color.r + .587 * color.g + .114 * color.b
+
+  return fckingMagic > 182 ? 'black' : 'white'
+}
