@@ -72,26 +72,9 @@ export const Info = ({ boardId }: InfoProps) => {
           {data.title}
         </Button>
       </Hint>
-      <TabSeparator />
-      <Actions
-        id={data._id}
-        title={data.title}
-        side="bottom"
-        sideOffset={10}
-      >
-        <div>
-          <Hint label="Menu" side="bottom" sideOffcet={10}>
-            <Button size='icon' variant='board'>
-              <Menu />
-            </Button>
-          </Hint>
-        </div>
-      </Actions>
     </div>
   )
 }
-
-// TODO: same bug with pointer none after renaming with menu
 
 export const InfoSkeleton = () => {
   const infoMain_class = 'absolute top-2 left-2 bg-white rounded-md px-1.5 h-12 flex items-center shadow-md w-[300px]'

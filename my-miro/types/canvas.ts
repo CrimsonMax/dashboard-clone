@@ -34,7 +34,7 @@ type InnerStats = {
 }
 
 type PointsArr = {
-  points?: number[][]
+  points: number[][]
 }
 
 type BoardObject = Coordinates & Size & InnerStats
@@ -61,8 +61,8 @@ type NoteObject = {
 
 export type RectangleLayer = RectangleObject & BoardObject
 export type EllipseLayer = EllipseObject & BoardObject
-export type PathLayer = PathObject & BoardObject
-export type TextLayer = TextObject & BoardObject & PointsArr
+export type PathLayer = PathObject & BoardObject & PointsArr
+export type TextLayer = TextObject & BoardObject
 export type NoteLayer = NoteObject & BoardObject
 
 export type Point = Coordinates
