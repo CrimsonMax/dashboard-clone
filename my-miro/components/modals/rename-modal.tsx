@@ -12,6 +12,8 @@ import { toast } from "sonner"
 export const RenameModal = () => {
   const form_class = 'space-y-4'
 
+  const [isModal, setIsModal] = useState<boolean>(false)
+
   const { mutate, pending } = useApiMutation(api.board.update)
   const { isOpen, onClose, initialValues } = useRenameModal()
 
@@ -20,6 +22,14 @@ export const RenameModal = () => {
   useEffect(() => {
     setTitle(initialValues.title)
   }, [initialValues.title])
+
+  useEffect(() => {
+    if (!isOpen) {
+      setTimeout(() => {
+        document.body.style.pointerEvents = ''
+      }, 500) // fix for Dialog "pointer none" bug
+    }
+  },[isOpen])
 
   const onSubmit: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
@@ -35,8 +45,6 @@ export const RenameModal = () => {
       .catch(() => toast.error('Fail!'))
   }
   
-  // TODO: fix pointer none for body after closing dialog
-
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>

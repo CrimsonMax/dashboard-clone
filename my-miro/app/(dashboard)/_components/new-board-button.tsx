@@ -32,7 +32,7 @@ export const NewBoardBtn = ({
     })
     .then(id => {
       toast.success('Board Created!')
-      router.push(`/board/${id}`)
+      // router.push(`/board/${id}`) // instant redirect after creation
     })
     .catch(() => toast.error('Oops! Failed :('))
   }
