@@ -86,7 +86,6 @@ export const BoardList = ({ orgId, query }: BoardlistProps) => {
   }
 
   return (
-
     <div>
       <h2 className={title_class}>
         {query.favorites ? 'Favorites boards' : 'Team boards'}

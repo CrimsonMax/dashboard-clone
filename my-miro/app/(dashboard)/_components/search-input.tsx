@@ -21,15 +21,21 @@ export const SearchInput = () => {
   }
 
   useEffect(() => {
-    const url = qs.stringifyUrl({
-      url: '/',
-      query: {
-        search: deboucedValue[0]
+    const url = qs.stringifyUrl(
+      {
+        url: '/',
+        query: {
+          search: deboucedValue[0]
+        },
       },
-    }, { skipEmptyString: true, skipNull: true })
+      {
+        skipEmptyString: true,
+        skipNull: true,
+      }
+    )
 
     router.push(url)
-  }, [deboucedValue, router])
+  }, [deboucedValue[0], router])
 
   return (
     <div className={searchWrapper_class}>

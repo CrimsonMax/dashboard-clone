@@ -68,7 +68,7 @@ export const OrgSidebar = () => {
           size="lg"
           className={logoBtn_class}
         >
-          <Link href="/">
+          <Link href='/'>
             <LayoutDashboard className={teamBoard_class} />
             Team boards
           </Link>
